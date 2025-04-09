@@ -1,32 +1,71 @@
-function updateGlowingClock() { const now = new Date();
+function updateGlowingClock() {
+  const now = new Date();
 
-let hours = now.getHours(); const minutes = String(now.getMinutes()).padStart(2, '0'); const seconds = String(now.getSeconds()).padStart(2, '0');
+  let hours = now.getHours();
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
 
-const ampm = hours >= 12 ? 'PM' : 'AM';
+  const ampm = hours >= 12 ? 'PM' : 'AM';
 
-hours = hours % 12; hours = hours ? hours : 12; hours = String(hours).padStart(2, '0');
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+  hours = String(hours).padStart(2, '0');
 
-document.getElementById('glow-clock').textContent = ${hours}:${minutes}:${seconds} ${ampm};
+  document.getElementById('glow-clock').textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
 
-const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }; const dateString = now.toLocaleDateString(undefined, options); document.getElementById('glow-date').textContent = dateString; }
+  const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+  const dateString = now.toLocaleDateString(undefined, options);
+  document.getElementById('glow-date').textContent = dateString;
+}
 
-updateGlowingClock(); setInterval(updateGlowingClock, 1000);
+updateGlowingClock();
+setInterval(updateGlowingClock, 1000);
 
-const clickSound = document.getElementById('click-sound'); const errorSound = document.getElementById('error-sound');
+const clickSound =
+document.getElementById('click-sound');
+const errorSound =
+document.getElementById('error-sound');
 
-let isMuted = false; const muteButton = document.getElementById('mute-toggle'); muteButton.addEventListener('click', () => { isMuted = !isMuted; muteButton.textContent = isMuted ? "Unmute" : "Mute"; });
+function appendValue(value) {
+  clickSound.play();
+  document.getElementById('display').value += value;
+}
 
-function appendValue(value) { if (!isMuted) { const sound = clickSound.cloneNode(); sound.play(); } document.getElementById('display').value += value; }
+function clearDisplay() {
+  clickSound.play();
+  document.getElementById('display').value = "";
+}
 
-function clearDisplay() { if (!isMuted) { const sound = clickSound.cloneNode(); sound.play(); } document.getElementById('display').value = ""; }
+function backspace() {
+  clickSound.play();
+  let display = document.getElementById('display');
+  display.value = display.value.slice(0, -1);
+}
 
-function backspace() { if (!isMuted) { const sound = clickSound.cloneNode(); sound.play(); } let display = document.getElementById('display'); display.value = display.value.slice(0, -1); }
+function calculate() {
+  try {
+    document.getElementById('display').value = 
+      Function('"use strict"; return (' + document.getElementById('display').value + ')')();
+  } catch {
+    errorSound.play();
+    document.getElementById('display').value = "Error";
+  }
+}
+document.addEventListener('keydown', function(event) {
+  const key = event.key;
+  const validKeys = '0123456789+-*/().';
 
-function calculate() { try { document.getElementById('display').value = Function('"use strict"; return (' + document.getElementById('display').value + ')')(); } catch { if (!isMuted) { const sound = errorSound.cloneNode(); sound.play(); } document.getElementById('display').value = "Error"; } }
-
-document.addEventListener('keydown', function(event) { const key = event.key; const validKeys = '0123456789+-*/().';
-
-if (validKeys.includes(key)) { appendValue(key); } else if (key === 'Enter') { calculate(); } else if (key === 'Backspace') { backspace(); } else if (key === 'Escape') { clearDisplay(); } });
-
-document.getElementById('display').addEventListener('input', function(e) { this.value = this.value.replace(/[^0-9+-*/().]/g, ''); });
-
+  if (validKeys.includes(key)) {
+    appendValue(key);
+  } else if (key === 'Enter') {
+    calculate();
+  } else if (key === 'Backspace') {
+    backspace();
+  } else if (key === 'Escape') {
+    clearDisplay();
+  }
+});
+document.getElementById('display').addEventListener('input', function(e) {
+  // Only allow valid calculator characters
+  this.value = this.value.replace(/[^0-9+\-*/().]/g, '');
+});
