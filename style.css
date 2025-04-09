@@ -1,0 +1,103 @@
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #2c3e50, #3498db);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  padding: 20px;
+}
+
+.glow-clock-container{
+ background: rgba(0, 255, 255, 0.1);
+  padding: 30px 50px;
+  border: 2px solid #00ffff;
+  border-radius: 20px;
+  margin-bottom: 30px;
+  text-align: center;
+  box-shadow: 0 0 20px #00ffff;
+}
+
+.glow-clock{
+  font-size: 2.5rem;
+  font-weight: bold;
+  color:#00ffff;
+  text-shadow: 
+  0 0 10px #00ffff;
+  0 0 20px #00ffff;
+  0 0 30px #00ffff;
+}
+
+.glow-date{
+  font-size: 1rem;
+  color: #a8fdfd;
+  text-shadow: 
+  0 0 5px #00ffff;
+  0 0 10px #00ffff;
+}
+
+.calculator {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  width: 280px;
+  max-width: 100%;
+  margin:  auto;
+}
+
+#display {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 15px;
+  font-size: 1.5rem;
+  text-align: right;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  background-color: #111;
+  color: #0ff;
+ box-shadow: 0 0 10px #00ffff inset;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+button {
+  padding: 18px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 8px;
+  background: #333;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+button:hover {
+  background: #444;
+}
+
+button:active {
+  background: #555;
+}
+
+/* Special colors */
+button:nth-child(1), /* C */
+button:nth-child(2), /* ⌫ */
+button:nth-child(19) /* = */ {
+  background: #ff6b6b;
+  color: white;
+}
+
+button:nth-child(1):hover,
+button:nth-child(2):hover,
+button:nth-child(19):hover {
+  background: #ff4c4c;
+}
