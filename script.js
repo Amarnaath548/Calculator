@@ -21,23 +21,19 @@ function updateGlowingClock() {
 updateGlowingClock();
 setInterval(updateGlowingClock, 1000);
 
-const clickSound =
-document.getElementById('click-sound');
-const errorSound =
-document.getElementById('error-sound');
 
 function appendValue(value) {
-  clickSound.play();
+ 
   document.getElementById('display').value += value;
 }
 
 function clearDisplay() {
-  clickSound.play();
+  
   document.getElementById('display').value = "";
 }
 
 function backspace() {
-  clickSound.play();
+  
   let display = document.getElementById('display');
   display.value = display.value.slice(0, -1);
 }
@@ -66,6 +62,6 @@ document.addEventListener('keydown', function(event) {
   }
 });
 document.getElementById('display').addEventListener('input', function(e) {
-  // Only allow valid calculator characters
+ 
   this.value = this.value.replace(/[^0-9+\-*/().]/g, '');
 });
